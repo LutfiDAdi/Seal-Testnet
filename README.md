@@ -7,7 +7,7 @@ https://faucet.sui.io/
 ## 1. Clone Repoo
 
 ```bash
-https://raw.githubusercontent.com/LutfiDAdi/Seal-Testnet/main/install_seal.sh
+curl -sO https://raw.githubusercontent.com/LutfiDAdi/Seal-Testnet/main/install_seal.sh
 ```
 
 ```bash
