@@ -13,7 +13,7 @@ echo "1. Update sistem dan instalasi dependensi"
 echo "2. Instal Node.js, PNPM, dan Screen"
 echo "3. Clone repository SEAL dari GitHub"
 echo "4. Instal dependensi frontend"
-echo "5. Menjalankan aplikasi dalam screen session"
+echo "5. Menjalankan aplikasi"
 echo ""
 
 # Pilihan untuk melanjutkan
@@ -53,19 +53,55 @@ echo "[4/5] Menginstal dependensi frontend..."
 cd ~/seal/examples/frontend
 pnpm install
 
-# Menjalankan aplikasi
+# Pilihan metode eksekusi
 echo "[5/5] Menjalankan aplikasi..."
 echo ""
-echo "Aplikasi akan dijalankan dalam screen session bernama 'seal'"
-echo "Anda dapat melepaskan terminal dengan menekan Ctrl+A kemudian D"
-echo "Untuk kembali ke screen session, ketik: screen -r seal"
+echo "Pilih metode eksekusi:"
+echo "1. Jalankan dengan screen (rekomendasi - aplikasi tetap berjalan setelah terminal ditutup)"
+echo "2. Jalankan tanpa screen (aplikasi akan berhenti ketika terminal ditutup)"
+echo "3. Tidak jalankan sekarang"
 echo ""
-echo "Akses aplikasi di: http://localhost:5173/"
-echo ""
-read -p "Tekan Enter untuk melanjutkan dan menjalankan aplikasi..."
+read -p "Masukkan pilihan (1/2/3): " run_choice
 
-screen -S seal -dm bash -c 'cd ~/seal/examples/frontend && pnpm dev; exec bash'
-
-echo "Instalasi selesai!"
-echo "Untuk memeriksa aplikasi, jalankan: screen -r seal"
-echo "Untuk keluar dari screen session tanpa menghentikan aplikasi, tekan Ctrl+A kemudian D"
+case "$run_choice" in
+  1 )
+    echo ""
+    echo "Aplikasi akan dijalankan dalam screen session bernama 'seal'"
+    echo "Anda dapat melepaskan terminal dengan menekan Ctrl+A kemudian D"
+    echo "Untuk kembali ke screen session, ketik: screen -r seal"
+    echo ""
+    echo "Akses aplikasi di: http://localhost:5173/"
+    echo ""
+    read -p "Tekan Enter untuk melanjutkan dan menjalankan aplikasi..."
+    
+    screen -S seal -dm bash -c 'cd ~/seal/examples/frontend && pnpm dev; exec bash'
+    
+    echo "Instalasi selesai!"
+    echo "Untuk memeriksa aplikasi, jalankan: screen -r seal"
+    echo "Untuk keluar dari screen session tanpa menghentikan aplikasi, tekan Ctrl+A kemudian D"
+    ;;
+  2 )
+    echo ""
+    echo "Aplikasi akan dijalankan di terminal ini..."
+    echo "Akses aplikasi di: http://localhost:5173/"
+    echo "Untuk menghentikan aplikasi, tekan Ctrl+C"
+    echo ""
+    read -p "Tekan Enter untuk melanjutkan dan menjalankan aplikasi..."
+    
+    cd ~/seal/examples/frontend && pnpm dev
+    
+    echo "Aplikasi telah dihentikan."
+    ;;
+  3 )
+    echo ""
+    echo "Instalasi selesai!"
+    echo "Anda dapat menjalankan aplikasi nanti dengan perintah:"
+    echo "  cd ~/seal/examples/frontend && pnpm dev"
+    echo "Atau dengan screen:"
+    echo "  screen -S seal -dm bash -c 'cd ~/seal/examples/frontend && pnpm dev; exec bash'"
+    ;;
+  * )
+    echo "Pilihan tidak valid, aplikasi tidak dijalankan."
+    echo "Anda dapat menjalankannya nanti secara manual."
+    ;;
+esac
